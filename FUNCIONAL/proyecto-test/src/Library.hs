@@ -59,10 +59,10 @@ mcm a b = (a * b) / (gcd a b)
 -- a) dispersion, que toma los tres valores y devuelve la diferencia entre el más alto y el más bajo. Ayuda: extender max y min a tres argumentos, usando las versiones de dos elementos. De esa forma se puede definir dispersión sin escribir ninguna guarda (las guardas están en max y min, que estamos usando).
 
 max3 :: Ord a => a -> a -> a -> a
-max3 val1 val2 val3 = max (max val1 val2) val3
+max3 val1 val2 = max (max val1 val2)
 
 min3 :: Ord a => a -> a -> a -> a
-min3 val1 val2 val3 = min (min val1 val2) val3
+min3 val1 val2 = min (min val1 val2)
 
 dispersion :: Number -> Number -> Number -> Number
 dispersion val1 val2 val3 = max3 val1 val2 val3  - min3 val1 val2 val3
@@ -99,3 +99,12 @@ esCuadrado n raiz = ((raiz ^ 2) == n) || esCuadrado n (raiz + 1)
 
 esCuadradoPerfecto :: Number -> Bool
 esCuadradoPerfecto n = esCuadrado n 1
+
+data Fecha = Fecha {
+    dia :: Number,
+    mes :: Number,
+    anio :: Number
+}deriving Show
+
+data Persona = Alumno { nombre :: String, legajo :: Number, notas :: [Number]}
+                | Dorente {nombre :: String, curso :: String} deriving Show
