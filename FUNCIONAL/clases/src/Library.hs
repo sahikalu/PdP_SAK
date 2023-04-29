@@ -1,13 +1,5 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Redundant bracket" #-}
 module Library where
 import PdePreludat
-import Test.Hspec (xspecify)
---import qualified GHC.Num as 1
-
-
-doble :: Number -> Number
-doble numero = numero + numero
 
 ----------------------- CLASE 4 --------------------------
 
@@ -116,3 +108,79 @@ maximoSegun f (x1 : x2 : xs) = maximoSegun f (mayorSegun f x1 x2 : xs) -- "(x1 :
 concatenar :: [a] -> [a] -> [a]
 concatenar [] lista2 = lista2
 concatenar (x : xs) lista2 = x : concatenar xs lista2
+
+----------------------- CLASE 5 --------------------------
+
+-- Casino royale
+
+type Carta = (Number, String) -- tupla (numeroDeCarta,Palo)
+type Mano = [Carta]
+data Jugador = Jugador {
+    nombre' :: String,
+    mano :: Mano,
+    bebida :: String
+}
+
+pokerDeAses    = [(1,"Corazones"), (1,"Picas"), (1,"Tréboles"), (1,"Diamantes"), (10,"Diamantes")]
+fullDeJokers   = [(11,"Corazones"), (11,"Picas"), (11,"Tréboles"), (10,"Diamantes"), (10,"Picas")]
+piernaDeNueves = [(9,"Corazones"), (9,"Picas"), (9,"Tréboles"), (10,"Diamantes"), (4,"Copas")]
+
+jamesBond   = Jugador "Bond... James Bond" pokerDeAses "Martini... shaken, not stirred"
+leChiffre   = Jugador "Le Chiffre" fullDeJokers "Gin"
+felixLeiter = Jugador "Felix Leiter" piernaDeNueves "Whisky"
+
+ocurrenciasDe x = length . filter (== x)
+concatenar' = foldl (++) []
+
+{- 
+	a. par --> tiene un número que se repite 2 veces (EXACTAMENTE)
+	b. pierna --> tiene un número que se repite 3 veces
+	c. color --> todas sus cartas son del mismo palo
+	d. fullHouse --> es, a la vez, par y pierna
+	e. poker --> tiene un número que se repite 4 veces
+	f. otro-->se cumple para cualquier conjunto de cartas
+-}
+
+-- 1.a
+mayorSegun' :: Ord a => (t -> a) -> t -> t -> t
+mayorSegun' f x y
+    | f x > f y = x
+    |otherwise = y
+
+-- 1.b
+maximoSegun' :: Ord a1 => (a2 -> a1) -> [a2] -> a2
+maximoSegun' _ [x] = x
+maximoSegun' f (x1 : x2 : xs) = maximoSegun f (mayorSegun f x1 x2 : xs) -- "(x1 : x2 : xs)" la lista tiene por lo menos 2 elementos
+
+-- 1.c
+sinRepetidos [] = []
+sinRepetidos (x : xs) = x : sinRepetidos (filter (/= x) xs)
+
+-- 2.a
+esoNoSeVale :: (Number, a) -> Bool
+esoNoSeVale = not . esoSeVale
+
+esoSeVale :: (Number, a) -> Bool
+esoSeVale (numero, palo) = elem numero [1..13] && elem palo palos -- pattern matching
+
+-- 2.b 
+manoNegra :: Jugador -> Bool
+manoNegra jugador = ((/=5) . length . mano) jugador || (any esoNoSeVale . mano $ jugador)
+-- ($) f p = f p
+
+manoNegra' :: Jugador -> Bool
+manoNegra' (Jugador _ cartas _) = ((/=5) . length) cartas || (any esoNoSeVale . cartas $ jugador)
+
+-- 3.a 
+numero' :: (a, b) -> a
+numero' = fst
+par :: Bool
+par = any aparece 2
+-- flip f a b = f b a
+
+aparece :: Number -> [(Number, b)] -> Bool
+aparece n cartas = any ((==n) . flip ocurrenciasDe  (map numero cartas)) [1..13]
+
+-- 3.b 
+pierna :: [(Number, b)] -> Bool
+pierna = aparece 3

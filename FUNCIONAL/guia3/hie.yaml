@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "guia3:lib"
+
+    - path: "./test"
+      component: "guia3:test:guia3-test"

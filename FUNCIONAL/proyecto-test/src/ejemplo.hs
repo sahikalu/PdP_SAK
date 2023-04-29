@@ -1,2 +1,0 @@
-module Ejemplo where
-import PdePreludat
