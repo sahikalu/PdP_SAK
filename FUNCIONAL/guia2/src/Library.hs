@@ -18,8 +18,8 @@ mitad = ( / 2 )
 -- 3) Definir una función inversa, que invocando a la función con un número cualquiera me devuelva su inversa.  Main> inversa 4     0.25             Main> inversa 0.5       2.0
 
 inversa :: Number -> Number
-inversa = (^ (-1))
---inversa numero = (^ (-1)) numero
+inversa = (1 /)
+--inversa numero = 1 / numero
 
 -- 4) Definir una función triple, que invocando a la función con un número cualquiera me devuelva el triple del mismo. Main> triple 5      15
 triple :: Number -> Number
@@ -46,13 +46,14 @@ esMultiploDe dividendo = (== 0) . mod dividendo
 esBisiesto :: Number -> Bool
 esBisiesto anio
     | esMultiploDe 400 anio = True
-    | esMultiploDe 100 anio = False
     | esMultiploDe 4 anio = True
+    | esMultiploDe 100 anio = False
     | otherwise = False
-
-esBisiesto :: Number -> b
-esBisiesto = (esMultiploDe 400 || esMultiploDe 4) && not(esMultiploDe 100) $ anio
 -}
+
+esBisiesto :: Number -> Bool
+esBisiesto anio = esMultiploDe anio 400 || (esMultiploDe anio 4 && (not . esMultiploDe anio) 100)
+-- esBisiesto anio = flip esMultiploDe 400 anio || (flip esMultiploDe 4 anio && (not (flip esMultiploDe 100 anio)))
 
 -- 8) Resolver la función inversaRaizCuadrada/1, que da un número n devolver la inversa su raíz cuadrada.Main> inversaRaizCuadrada 4        0.5 Nota: Resolverlo utilizando la función inversa Ej. 2.3, sqrt y composición.
 
@@ -61,4 +62,12 @@ inversaRaizCuadrada = inversa . sqrt
 -- inversaRaizCuadrada numero = inversa . sqrt $ numero
 
 -- 9) Definir una función incrementMCuadradoN, que invocándola con 2 números m y n, incrementa un valor m al cuadrado de n por Ej:Main> incrementMCuadradoN 3 2     11 Incrementa 2 al cuadrado de 3, da como resultado 11. Nota: Resolverlo utilizando aplicación parcial y composición.
--- incrementMCuadradoN
+incrementMCuadradoN :: Number -> Number -> Number
+incrementMCuadradoN m = ((m ^ 2) + )
+-- incrementMCuadradoN m n = (m ^ 2) + n
+
+-- 10) Definir una función esResultadoPar/2, que invocándola con número n y otro m, devuelve true si el resultado de elevar n a m es par.Main> esResultadoPar 2 5           True.           Main> esResultadoPar 3 2          False.        Nota Obvia: Resolverlo utilizando aplicación parcial y composición.
+
+esResultadoPar :: Number -> Number -> Bool
+esResultadoPar n m = even . (^m) $ n
+-- esResultadoPar n m = even (n ^ m)

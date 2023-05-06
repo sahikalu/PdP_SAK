@@ -23,9 +23,15 @@ correrTests = hspec $ do
   describe "Test de ejemplo Composición" $ do
     it "9 es multiplo de 3" $ do
       esMultiploDe 9 3 `shouldBe` True
-    --it "2021 no año bisiesto" $ do
-      --2021 `shouldSatisfy` esBisiesto
-    --it "2023 no año bisiesto" $ do
-      --2023 `shouldSatisfy` esBisiesto
-    it "la inversa de la raiz cuadrada de 4 es 2" $ do
-      inversaRaizCuadrada 4 `shouldBe` 2
+    it "2023 no es año bisiesto" $ do
+      2023 `shouldNotSatisfy` esBisiesto
+    it "2020 año bisiesto" $ do
+      2020 `shouldSatisfy` esBisiesto
+    it "la inversa de la raiz cuadrada de 4 es 0.5" $ do
+      inversaRaizCuadrada 4 `shouldBe` 0.5
+    it "3 inscrementado al cuadrado de 2 es 11" $ do
+      incrementMCuadradoN 3 2 `shouldBe` 11
+    it "2 elevado a la 5 tiene resultado par" $ do
+      esResultadoPar 2 5 `shouldBe` True
+    it "3 elevado a la 2 no tiene resultado par" $ do
+      esResultadoPar 3 2 `shouldBe` False
