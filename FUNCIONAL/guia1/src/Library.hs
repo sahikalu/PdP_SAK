@@ -5,11 +5,11 @@ import PdePreludat
 
 -- 1) Definir la función esMultiploDeTres/1, que devuelve True si un número es múltiplo de 3, p.ej: Main> esMultiploDeTres 9     es   True
 esMultiploDeTres :: Number -> Bool
-esMultiploDeTres dividendo = mod 3 dividendo == 0
+esMultiploDeTres dividendo = esMultiploDe 3 dividendo
 
 -- 2) Definir la función esMultiploDe/2, que devuelve True si el segundo es múltiplo del primero, p.ej. Main> esMultiplo 12 3     es   True
 esMultiploDe :: Number -> Number -> Bool
-esMultiploDe divisor dividendo = mod dividendo divisor == 0
+esMultiploDe divisor dividendo = dividendo `mod` divisor == 0
 
 -- 3) Definir la función cubo/1, devuelve el cubo de un número.
 cubo :: Number -> Number

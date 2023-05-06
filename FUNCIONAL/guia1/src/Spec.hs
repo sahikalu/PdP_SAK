@@ -5,7 +5,9 @@ import Test.Hspec
 
 correrTests :: IO ()
 correrTests = hspec $ do
-  describe "Test de ejemplo" $ do
-    it "El pdepreludat se instaló correctamente" $ do
-      2 * 1 `shouldBe` 2
+  describe "Test de ejemplos dados en la guia" $ do
+    it "9 es multiplo de 3" $ do
+      9 `shouldSatisfy` esMultiploDeTres
+    it "12 es multiplo de 3" $ do
+      esMultiploDe 12 3 `shouldBe` True
 
