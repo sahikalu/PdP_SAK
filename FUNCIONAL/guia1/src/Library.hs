@@ -9,7 +9,7 @@ esMultiploDeTres dividendo = esMultiploDe 3 dividendo
 
 -- 2) Definir la función esMultiploDe/2, que devuelve True si el segundo es múltiplo del primero, p.ej. Main> esMultiplo 12 3     es   True
 esMultiploDe :: Number -> Number -> Bool
-esMultiploDe divisor dividendo = dividendo `mod` divisor == 0
+esMultiploDe divisor dividendo = mod divisor dividendo == 0
 
 -- 3) Definir la función cubo/1, devuelve el cubo de un número.
 cubo :: Number -> Number
