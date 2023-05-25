@@ -5,6 +5,7 @@ module Library where
 
 import Control.Monad (when)
 import PdePreludat
+import System.Environment (getEnvironment)
 
 -- import qualified Data.Either as 3
 
@@ -112,8 +113,6 @@ maximoSegun f (x1 : x2 : xs) = maximoSegun f (mayorSegun f x1 x2 : xs) -- "(x1 :
 concatenar :: [a] -> [a] -> [a]
 concatenar [] lista2 = lista2
 concatenar (x : xs) lista2 = x : concatenar xs lista2
-
--}
 
 -- CLASE 5 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -295,3 +294,75 @@ all :: (a -> Bool) -> [a] -> Bool
 all f xs = foldl condicion True xs
     where condicion s e = s && f e
 -}
+-}
+
+-- CLASE 7 ------------------------------------------------------------------------------------------------------------------------
+
+-- Ejercicio FedEx
+
+-- 1) Crear el modelo necesario que mejor se adapte para la solución. Además:
+data Envio = Envio {
+    origen :: Locacion,
+    destino :: Locacion,
+    peso :: Number,
+    precioBase :: Number,
+    categorias :: [Categorias],
+    impuestos :: [Impuestos]
+} deriving Show
+
+data Locacion = Locacion {
+    pais :: String,
+    ciudad :: String
+} deriving (Show, Eq)
+
+type Categorias = String
+
+-- a) Indique el tipo de un cargo.
+-- type Cargo = Envio -> Number
+type Cargo = Envio -> Envio
+
+-- b) Indique el tipo de un impuesto.
+type Impuestos = Envio -> Envio
+
+-- 2) Modelar con funciones constantes: 
+-- a) Un cargo categórico de “tecnología” de 18%. 
+{-
+cagoCategorico :: Categorias -> Number -> Envio -> Envio
+cagoCategorico categoria porcentaje envio
+    | elem categoria . categorias $ envio = envio { precioBase = precioBase envio * (1 + porcentaje / 100)}
+    | otherwise = envio
+-}
+cagoCategorico :: Categorias -> Number -> Envio -> Envio
+-- cagoCategorico categoria porcentaje envio = aplicarCargo (elem categoria . categorias) (porcentaje / 100) envio
+cagoCategorico categoria porcentaje = aplicarCargo (elem categoria . categorias) (porcentaje / 100)
+
+
+cargoTecnologia :: Envio -> Envio
+cargoTecnologia = cagoCategorico "tecnologia" 18
+
+cargoSobrepeso :: Number -> Envio -> Envio
+cargoSobrepeso pesoLimite envio
+    | peso envio > pesoLimite = envio { precioBase = precioBase envio + (peso envio - pesoLimite) * 80}
+    | otherwise = envio
+
+aplicarCargo :: (Envio -> Bool) -> Number -> Envio -> Envio
+aplicarCargo condicion monto envio
+    | condicion envio = envio { precioBase = precioBase envio + monto }
+    | otherwise = envio
+
+
+-- b) Envío con origen en Buenos Aires, Argentina y con destino Utrecht, Países Bajos, de 2 kg. de peso, precio base de $220, con las categorías de música y tecnología, sin impuestos. 
+
+-- envioInternacional
+-- envioLocal
+
+
+-- c) Envío con origen California, Estados Unidos y con destino Miami, Estado Unidos, de 5 kg. de peso, precio base $1500, con categoría de libros, y con IVA e impuesto extraño.
+
+
+
+
+-- 8) 8. Escribir el tipo de la siguiente función:
+
+whatever :: Eq b => b -> (a -> b) -> (b -> [a] -> c) -> [a] -> c
+whatever a b c = c a . filter ((a==) . b)
