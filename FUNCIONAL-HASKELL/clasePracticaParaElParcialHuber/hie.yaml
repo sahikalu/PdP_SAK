@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "clasePracticaPAraElParcial:lib"
+
+    - path: "./test"
+      component: "clasePracticaPAraElParcial:test:clasePracticaPAraElParcial-test"

@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "clasePracticaParaElParcialCurryCoin:lib"
+
+    - path: "./test"
+      component: "clasePracticaParaElParcialCurryCoin:test:clasePracticaParaElParcialCurryCoin-test"
