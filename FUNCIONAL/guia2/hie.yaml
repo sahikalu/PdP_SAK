@@ -1,7 +1,0 @@
-cradle:
-  stack:
-    - path: "./src"
-      component: "guia2:lib"
-
-    - path: "./test"
-      component: "guia2:test:guia2-test"

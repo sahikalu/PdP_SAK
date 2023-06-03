@@ -1,7 +1,0 @@
-cradle:
-  stack:
-    - path: "./src"
-      component: "tp1:lib"
-
-    - path: "./test"
-      component: "tp1:test:tp1-test"
