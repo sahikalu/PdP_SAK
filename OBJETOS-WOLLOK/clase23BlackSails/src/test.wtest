@@ -1,0 +1,7 @@
+describe "Testing tests" {
+
+    test "Meh" {
+       assert.equals(1,1)
+    }
+    
+}

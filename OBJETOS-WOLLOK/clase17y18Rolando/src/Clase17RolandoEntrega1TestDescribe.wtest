@@ -1,0 +1,71 @@
+import Clase17RolandoEntrega1.*
+
+describe "Punto 1 - Hechicería" {
+
+	method initialize() {
+		rolando.hechizoPreferido(espectroMalefico)
+	}
+
+	test "Nivel de hechicería de Rolando básico" {
+		assert.equals(56, rolando.nivelDeHechiceria())
+	}
+
+	test "Nivel de hechicería de Rolando con hehchizo macabro" {
+		espectroMalefico.nombre("espectro superrecontramaléfico muajajaja")
+		assert.equals(125, rolando.nivelDeHechiceria())
+	}
+
+}
+
+describe "Punto 2 - Lucha" {
+
+	method initialize() {
+		collarDivino.cantidadDePerlas(5)
+		rolando.agregarArtefacto(espadaDelDestino)
+		rolando.agregarArtefacto(collarDivino)
+		rolando.agregarArtefacto(mascaraOscura)
+	}
+
+	// creo un objeto sin nombre para que entienda el mensaje de uniddaes de lucha (que corresponda con el tipoDeContenido artefacto)
+	method nuevoArtefacto(unidadesDeLucha) = object {
+		method unidadesDeLucha() = unidadesDeLucha
+	}
+
+	test "Valor de lucha Rolando sin artefactos" {
+		rolando.removerArtefacto(espadaDelDestino)
+		rolando.removerArtefacto(collarDivino)
+		rolando.removerArtefacto(mascaraOscura)
+		assert.equals(1, rolando.valorDeLucha())
+	}
+
+	test "Valor de lucha Rolando con artefactos (por defecto)" {
+		assert.equals(13, rolando.valorDeLucha())
+	}
+
+	test "Valor de lucha Rolando con artefactos (por defecto) con collar divino de 3 perlas" {
+		collarDivino.cantidadDePerlas(3)
+		assert.equals(11, rolando.valorDeLucha())
+	}
+
+	test "Valor de lucha Rolando con artefactos (por defecto) con valor base de lucha de 8" {
+		rolando.valorBaseLucha(8)
+		assert.equals(20, rolando.valorDeLucha())
+	}
+
+	test "Unidades de lucha de la máscara oscura tras el eclipse" {
+		fuerzaOscura.provocarEclipse()
+		assert.equals(5, mascaraOscura.unidadesDeLucha())
+	}
+
+	test "Valor de lucha Rolando sin mascaraOscura" {
+		rolando.removerArtefacto(mascaraOscura)
+		assert.equals(9, rolando.valorDeLucha())
+	}
+
+	test "EXTRA - PRUEBA CON ARTEFACTO FANTASMA - Valor de lucha Rolando con artefacto de 1000 unidades" {
+		const nuevoArtefacto = self.nuevoArtefacto(1000)
+		rolando.agregarArtefacto(nuevoArtefacto)
+		assert.equals(1013, rolando.valorDeLucha())
+	}
+}
+

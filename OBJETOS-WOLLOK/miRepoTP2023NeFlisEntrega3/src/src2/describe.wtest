@@ -1,0 +1,133 @@
+import cuentasYPerfiles.*
+import contenidosYPlanes.*
+import objects.*
+
+describe "Pueden Ver" {
+
+	test "Cosme puede ver Black Sails" {
+		assert.equals(true, cosmeFulanito.puedeVer(blackSails))
+	}
+
+	test "Don Barredora puede ver “The Witcher”" {
+		assert.equals(true, donBarredora.puedeVer(theWitcher))
+	}
+
+	test "Don Barredora no puede ver “Sean Eternos”" {
+		assert.equals(false, donBarredora.puedeVer(seanEternos))
+	}
+
+	test "Margo puede ver “Sean Eternos”" {
+		assert.equals(true, margoZavala.puedeVer(seanEternos))
+	}
+
+}
+
+describe "Valoración" {
+
+	test "Calcular la valoración de Cosme sin ver nada" {
+		assert.equals(0, cosmeFulanito.valoracion())
+	}
+
+	test "Calcular la valoración de Cosme despues de ver “Sean Eternos”" {
+		cosmeFulanito.ver(seanEternos)
+		
+		assert.equals(3, cosmeFulanito.valoracion())
+	}
+
+	test "Calcular la valoración de Don Barredora despues de ver “Sean Eternos”" {
+		donBarredora.ver(seanEternos)
+		
+		assert.equals(0, donBarredora.valoracion())
+	}
+
+	test "Calcular la valoración de Margo, luego de ver “Black Sails” y “Avengers Endgame”" {
+		margoZavala.ver(blackSails)
+		margoZavala.ver(avengersEndgame)
+		
+		assert.equals(40, margoZavala.valoracion())
+	}
+
+}
+
+describe "Recomendaciones" {
+
+	test "Margo (inicialmente con una lista de contenidos historial vacía) podría ver “Sean Eternos”" {
+		assert.equals(true, margoZavala.recomendaria(seanEternos))
+	}
+
+	test "Margo luego de ver “Sean Eternos”, no podría ver “Black Sails”" {
+		margoZavala.ver(seanEternos)
+		
+		assert.equals(false, margoZavala.recomendaria(blackSails))
+	}
+
+	test "Cosme vería “Black Sails”" {
+		assert.equals(true, cosmeFulanito.recomendaria(blackSails))
+	}
+
+	test "Cosme no vería “Sean Eternos”" {
+		assert.equals(false, cosmeFulanito.recomendaria(seanEternos))
+	}
+
+	test "Margo luego de ver “Sean Eternos”, no podría ver “Black Sails”, cambiando el desvío a 70%" {
+		margoZavala.desvio(0.7)
+		margoZavala.ver(seanEternos)
+		
+		assert.equals(false, margoZavala.recomendaria(blackSails))
+	}
+
+	test "Cosme con agregado de preferencia de género “Documental” podría ver “Sean Eternos”" {
+		cosmeFulanito.agregarPreferencia('Documental')
+		
+		assert.equals(true, cosmeFulanito.recomendaria(seanEternos))
+	}
+
+	test "El perfil “Murphy Encías Sangrantes” puede ver “Avengers Endgame”" {
+		const murphyEnciasSangrantes = cuentaMargoZavala.nuevoPerfil("Murphy Encías Sangrantes", modoFan, 
+			#{ "Robert Downey Jr.", "Toby Stephens", "Luke Arnold", "Henry Cavill" })
+			
+		assert.equals(true, murphyEnciasSangrantes.recomendaria(avengersEndgame))
+	}
+
+	test "El perfil “Murphy Encías Sangrantes” no puede ver “Good Omens”" {
+		const murphyEnciasSangrantes = cuentaMargoZavala.nuevoPerfil("Murphy Encías Sangrantes", modoFan, 
+			#{ "Robert Downey Jr.", "Toby Stephens", "Luke Arnold", "Henry Cavill" })
+
+		assert.equals(false, murphyEnciasSangrantes.recomendaria(goodOmens))
+	}
+
+}
+
+describe "Cuentas y Perfiles" {
+
+	test "Luego de crear “El Barto”, la cuenta de Margo Zavala tiene 3 perfiles" {
+		cuentaMargoZavala.nuevoPerfil("El Barto", preferenciaDeGenero, 
+			#{ "Animacion", "Comedia", "Fantasia", "Acción", "Drama", "Terror" })
+			
+		assert.equals(3, cuentaMargoZavala.cantidadDePerfiles())
+	}
+
+	test "El perfil de Margo Zavala no es variado" {
+		assert.equals(false, margoZavala.esVariado())
+	}
+
+	test "El perfil de Cosme Fulanito no es variado" {
+		assert.equals(false, cosmeFulanito.esVariado())
+	}
+
+	test "El perfil de “El Barto” es variado" {
+		const elBarto = cuentaMargoZavala.nuevoPerfil("El Barto", preferenciaDeGenero, 
+			#{"Animacion","Comedia", "Fantasia","Acción","Drama","Terror"})
+			
+		assert.equals(true, elBarto.esVariado())
+	}
+
+	test "El perfil “Murphy Encías Sangrantes” es variado" {
+		const murphyEnciasSangrantes = cuentaMargoZavala.nuevoPerfil("Murphy Encías Sangrantes", modoFan, 
+			#{ "Robert Downey Jr.", "Toby Stephens", "Luke Arnold", "Henry Cavill" })
+		
+		assert.equals(true, murphyEnciasSangrantes.esVariado())
+	}
+
+}
+

@@ -1,0 +1,68 @@
+import Clase16SueldoPepe.*
+
+test "Pepe sin bonos siendo cadete" {
+	
+	assert.equals(1500, pepe.sueldo())
+	
+	/* assert.that(pepe.sueldo() == 1500) // asegura que se cumpla lo del paréntesis */
+}
+
+test "Pepe sin bonos siendo gerente" {
+	
+	pepe.puesto(gerente)
+	
+	assert.equals(1000, pepe.sueldo())	
+}
+
+test "Pepe cadete con bono por presentismo sin faltas" {
+	
+	pepe.bonoPorPresentismo(presentismo)
+	
+	assert.equals(1600, pepe.sueldo())
+}
+
+test "Pepe cadete con bono por presentismo con una falta" {
+	
+	pepe.bonoPorPresentismo(presentismo)
+	pepe.faltas(1)
+
+	assert.equals(1550, pepe.sueldo())
+}
+
+test "Pepe cadete con bono por presentismo con dos falta" {
+	
+	pepe.bonoPorPresentismo(presentismo)
+	pepe.faltas(2)
+
+	assert.equals(1500, pepe.sueldo())
+}
+
+test "Pepe cadete con bono por presentismo con más de dos falta" {
+	
+	pepe.bonoPorPresentismo(presentismo)
+	pepe.faltas(3)
+
+	assert.equals(1500, pepe.sueldo())
+}
+
+test "Pepe cadete con bono por resultado fijo" {
+	
+	pepe.bonoPorResultado(resultadoFijo)
+
+	assert.equals(1580, pepe.sueldo())
+}
+
+test "Pepe cadete con bono por resultado variable" {
+	
+	pepe.bonoPorResultado(resultadoVariable)
+
+	assert.equals(1650, pepe.sueldo())
+}
+
+test "Pepe gerente con bono por resultado variable" {
+	
+	pepe.bonoPorResultado(resultadoVariable)
+	pepe.puesto(gerente)
+
+	assert.equals(1100, pepe.sueldo())
+}

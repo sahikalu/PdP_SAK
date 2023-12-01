@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "primerParcialSahira:lib"
+
+    - path: "./test"
+      component: "primerParcialSahira:test:primerParcialSahira-test"

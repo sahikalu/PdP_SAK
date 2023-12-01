@@ -28,8 +28,11 @@ listaDeFrecuenciaCardiaca = [80, 100, 120, 128, 130, 123, 125]
 
 -- a) a. Definir la función promedioFrecuenciaCardiaca, que devuelve el promedio de la frecuencia cardíaca.         Main> promedioFrecuenciaCardiaca            115.285714285714
 
--- promedioFrecuenciaCardiaca :: [Number] -> Number
---promedioFrecuenciaCardiaca listaDeFrecuencias = sumarLista listaDeFrecuencias / fromInteger (toInteger (length listaDeFrecuencias))
+promedioLista :: [Number] -> Number
+promedioLista lista = sumarLista lista / length lista
+
+romedioFrecuenciaCardiaca :: [Number] -> Number
+romedioFrecuenciaCardiaca = promedioLista
 
 -- b) Definir la función frecuenciaCardiacaMinuto/1, que recibe m que es el minuto en el cual quiero conocer la frecuencia cardíaca, m puede ser a los 10, 20, 30 ,40,..hasta 60.           Main> frecuenciaCardiacaMomento 30          128
 
@@ -122,3 +125,6 @@ esMultiplo divisor dividendo = mod divisor dividendo == 0
 
 -- 2) Armar una función promedios/1, que dada una lista de listas me devuelve la lista de los promedios de cada lista-elemento. P.ej.           Main> promedios [[8,6],[7,9,4],[6,2,4],[9,6]]           [7,6.67,4,7.5].          Nota: Implementar una solución utilizando map/2.
 
+promedios :: [[Number]] -> [Number]
+promedios = map promedioLista
+-- promedios lista = map promedioLista lista

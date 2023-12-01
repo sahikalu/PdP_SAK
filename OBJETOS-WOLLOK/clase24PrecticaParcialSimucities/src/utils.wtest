@@ -1,0 +1,12 @@
+import simucities.*
+
+describe "Collection Utilsw" {
+   test "Zip list [1,2,3,4]" {
+        const list = [1,2,3,4]
+
+        const zipped = collectionUtils.zip(list)
+        assert.equals(new Tuple(fst = 1, snd = 2), zipped.first())
+        assert.equals(new Tuple(fst = 3, snd = 4), zipped.last())
+
+    }
+}

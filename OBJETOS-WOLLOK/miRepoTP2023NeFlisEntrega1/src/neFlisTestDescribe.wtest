@@ -1,0 +1,73 @@
+import neFlis.*
+
+describe "Pueden Ver" {
+
+	test "Cosme puede ver Black Sails" {
+		assert.equals(true, cosmeFulanito.puedeVer(blackSails))
+	}
+
+	test "Cosme puede no ver “Sean Eternos”" {
+		assert.equals(false, cosmeFulanito.puedeVer(seanEternos))
+	}
+
+	test "Margo puede ver “Sean Eternos”" {
+		assert.equals(true, margoZavala.puedeVer(seanEternos))
+	}
+
+}
+
+describe "Valoración" {
+
+	test "Calcular la valoración de Cosme sin ver nada" {
+		assert.equals(0, cosmeFulanito.valoracion())
+	}
+
+	test "Calcular la valoración de Cosme despues de ver “Sean Eternos”" {
+		cosmeFulanito.ver(seanEternos)
+		
+		assert.equals(0, cosmeFulanito.valoracion())
+	}
+
+	test "Calcular la valoración de Margo, luego de ver “Black Sails” y “Avengers Endgame”" {
+		margoZavala.ver(blackSails)
+		margoZavala.ver(avengersEndgame)
+		
+		assert.equals(34, margoZavala.valoracion())
+	}
+
+}
+
+describe "Recomendaciones" {
+
+	test "Margo (inicialmente con una lista de contenidos historial vacía) podría ver “Sean Eternos”" {
+		assert.equals(true, margoZavala.recomendacion(seanEternos))
+	}
+
+	test "Margo luego de ver “Sean Eternos”, no podría ver “Black Sails”" {
+		margoZavala.ver(seanEternos)
+		
+		assert.equals(false, margoZavala.recomendacion(blackSails))
+	}
+
+	test "Cosme vería “Black Sails”" {
+		assert.equals(true, cosmeFulanito.recomendacion(blackSails))
+	}
+
+	test "Cosme no vería “Sean Eternos”" {
+		assert.equals(false, cosmeFulanito.recomendacion(seanEternos))
+	}
+
+	test "Margo luego de ver “Sean Eternos”, podría ver “Black Sails”, cambiando el desvío a 70%" {
+		margoZavala.nuevoDesvio(0.7)
+		margoZavala.ver(seanEternos)
+		
+		assert.equals(true, margoZavala.recomendacion(blackSails))
+	}
+
+	test "Cosme con agregado de preferencia de género “Documental” podría ver “Sean Eternos”" {
+		cosmeFulanito.agregarPreferencia('Documental')
+		
+		assert.equals(true, cosmeFulanito.recomendacion(seanEternos))
+	}
+
+}

@@ -1,0 +1,275 @@
+import cuentasYPerfiles.*
+import contenidosYPlanes.*
+import objects.*
+
+describe "Pueden Ver" {
+
+	test "Cosme puede ver Black Sails" {
+		
+		assert.equals(true, cosmeFulanito.puedeVer(blackSails))
+		
+	}
+
+	test "Don Barredora puede ver “The Witcher”" {
+		
+		assert.equals(true, donBarredora.puedeVer(theWitcher))
+		
+	}
+
+	test "Don Barredora no puede ver “Sean Eternos”" {
+		
+		assert.equals(false, donBarredora.puedeVer(seanEternos))
+		
+	}
+
+	test "Margo puede ver “Sean Eternos”" {
+		
+		assert.equals(true, margoZavala.puedeVer(seanEternos))
+		
+	}
+
+}
+
+describe "Valoración" {
+
+	test "Calcular la valoración de Cosme sin ver nada" {
+		
+		assert.equals(0, cosmeFulanito.valoracion())
+		
+	}
+
+	test "Calcular la valoración de Cosme despues de ver “Sean Eternos”" {
+		
+		cosmeFulanito.ver(seanEternos,10)
+		
+		assert.equals(3, cosmeFulanito.valoracion())
+		
+		
+	}
+
+	test "Calcular la valoración de Margo, luego de ver “Black Sails” y “Avengers Endgame”" {
+		
+		margoZavala.ver(blackSails,1)
+		margoZavala.ver(avengersEndgame,1)
+		
+		assert.equals(40, margoZavala.valoracion())
+		
+	}
+
+}
+
+describe "Recomendaciones" {
+
+	const murphyEnciasSangrantes = cuentaMargoZavala.nuevoPerfil(
+					"Murphy Encías Sangrantes", 
+					modoFan, 
+					#{"Robert Downey Jr.", "Toby Stephens", "Luke Arnold", "Henry Cavill"},
+					12,10, 1962)
+	
+	test "Margo (inicialmente con una lista de contenidos historial vacía) podría ver “Sean Eternos”" {
+		
+		assert.equals(true, margoZavala.recomendaria(seanEternos))
+		
+	}
+
+	test "Margo luego de ver “Sean Eternos”, no podría ver “Black Sails”" {
+		
+		margoZavala.ver(seanEternos,11)
+		
+		assert.equals(false, margoZavala.recomendaria(blackSails))
+		
+	}
+
+	test "Cosme vería “Black Sails”" {
+		
+		assert.equals(true, cosmeFulanito.recomendaria(blackSails))
+		
+	}
+
+	test "Cosme no vería “Sean Eternos”" {
+		
+		assert.equals(false, cosmeFulanito.recomendaria(seanEternos))
+		
+	}
+
+	test "Margo luego de ver “Sean Eternos”, no podría ver “Black Sails”, cambiando el desvío a 70%" {
+		
+		margoZavala.desvio(0.7)
+		
+		margoZavala.ver(seanEternos,20)
+		
+		assert.equals(false, margoZavala.recomendaria(blackSails))
+		
+	}
+
+	test "Cosme con agregado de preferencia de género “Documental” podría ver “Sean Eternos”" {
+		
+		cosmeFulanito.agregarPreferencia('Documental')
+		
+		assert.equals(true, cosmeFulanito.recomendaria(seanEternos))
+		
+	}
+
+	test "A “Murphy Encías Sangrantes” se le recomienda ver “Avengers Endgame”" {
+			
+		assert.equals(true, murphyEnciasSangrantes.recomendaria(avengersEndgame))
+		
+	}
+
+	test "A “Murphy Encías Sangrantes” no se le recomienda ver “Good Omens”" {
+
+		assert.equals(false, murphyEnciasSangrantes.recomendaria(goodOmens))
+		
+	}
+
+}
+
+describe "Cuentas y Perfiles" {
+
+	const elBarto = cuentaMargoZavala.nuevoPerfil(
+					"El Barto", 
+					preferenciaDeGenero, 
+					#{ "Animacion", "Comedia", "Fantasia", "Acción", "Drama", "Terror" },
+					21,11,2010)
+
+	test "Luego de crear “El Barto”, la cuenta de Margo Zavala tiene 3 perfiles" {
+			
+		assert.equals(3, cuentaMargoZavala.cantidadDePerfiles())
+		
+	}
+
+	test "El perfil de Margo Zavala no es variado" {
+		
+		assert.equals(false, margoZavala.esVariado())
+		
+	}
+
+	test "El perfil de Cosme Fulanito no es variado" {
+		
+		assert.equals(false, cosmeFulanito.esVariado())
+		
+	}
+
+	test "El perfil de “El Barto” es variado" {
+		
+		assert.equals(true, elBarto.esVariado())
+		
+	}
+
+	test "El perfil “Murphy Encías Sangrantes” es variado" {
+		
+		const murphyEnciasSangrantes = cuentaMargoZavala.nuevoPerfil(
+					"Murphy Encías Sangrantes", 
+					modoFan, 
+					#{ "Robert Downey Jr.", "Toby Stephens", "Luke Arnold", "Henry Cavill" },
+					12,10,1962)
+		
+		assert.equals(true, murphyEnciasSangrantes.esVariado())
+		
+	}
+
+}
+
+
+describe "Más sobre Contenidos" {
+	
+	test "Cosme Fulanito, Margo Zavala y Don Barredora ven “Black Sails” hasta el 56%, 30% y 2% respectivamente." {
+
+		cosmeFulanito.ver(blackSails, 56)
+		margoZavala.ver(blackSails, 30)
+		donBarredora.ver(blackSails, 2)
+		
+		assert.equals(56, cosmeFulanito.porcentajeVistoDe(blackSails))
+		assert.equals(30, margoZavala.porcentajeVistoDe(blackSails))
+		assert.equals(2, donBarredora.porcentajeVistoDe(blackSails))
+	}
+	
+	test "A la serie “Sean Eternos” se le agrega el capitulo “Messirve”" {
+		
+		seanEternos.agregarCapitulo("Messirve")
+		
+		assert.equals(#{"Messirve"}, seanEternos.verContenidoDeTemporada())
+	}
+	
+	test "A la serie “Sean Eternos” se le agregan los capitulos “Messirve” y “La Scaloneta” " {
+		
+		seanEternos.agregarCapitulo("Messirve")
+		seanEternos.agregarCapitulo("La Scaloneta")
+		
+		assert.equals(#{"Messirve","La Scaloneta"}, seanEternos.verContenidoDeTemporada())
+	}
+	
+	test "Cosme Fulanito ve “Black Sails” hasta el 70% y puntua a la serie con 3 puntos" {
+		
+		cosmeFulanito.ver(blackSails, 70)
+		cosmeFulanito.puntuar(blackSails, 3)
+		
+		assert.equals(3, cosmeFulanito.puntaje(blackSails))
+	}
+	
+
+	test "Don Barredora no puede ver “Sean Eternos” porque está fuera de su Plan."{
+	
+		assert.throwsException(donBarredora.puedeVer(seanEternos))
+		
+	} 
+}
+
+describe "Validación sobre tipos de recomendación de los perfiles." {
+
+	const milhaus = cuentaMargoZavala.nuevoPerfil("Mil Haus", 10, 10, 2017)
+
+	const mou = cuentaMargoZavala.nuevoPerfil("Mou", 1, 1, 1960)
+
+	test "Mou se crea una cuenta y su perfil tendrá la recomendación por defecto." {
+		
+		assert.equals(true, mou.tipoDeRecomendacion() == porDefecto)
+	}
+	
+	test "Sin contenidos vistos, Mou recibe como recomendación ver los estrenos 'Avengers Endgame' y la serie 'The Witcher'"{
+		
+		avengersEndgame.esEstreno(true)
+		
+		assert.equals(true, mou.recomendaria(avengersEndgame) and mou.recomendaria(theWitcher))
+	}
+	
+	test "Avengers Endgame y The Witcher dejan de ser estrenos, por lo que Mou deja de recibirlas como recomendación"{
+		
+		avengersEndgame.esEstreno(false)
+		theWitcher.esEstreno(false)
+		
+		assert.equals(false, mou.recomendaria(avengersEndgame) or mou.recomendaria(theWitcher))
+	}
+	
+	test "Mou ve un fragmento de 'Eterno resplandor' y lo puntúa con un 5. 
+		  Por contenidos relacionados, Neflis le recomienda ver: 
+		  'La máscara' (mismo protagonista), 'Millenium' y 'Good O Mens' (géneros relacionados)" {
+		
+		mou.ver(eternoResplandor, 30)
+		mou.puntuar(eternoResplandor, 5)
+		
+		assert.equals(true, mou.recomendaria(laMascara) and mou.recomendaria(millenium) and mou.recomendaria(goodOmens))
+	
+	}
+	
+	test "Mou decide cambiar el tipo de recomendación por modo Fan y lo logra." {
+		
+		mou.tipoDeRecomendacion(modoFan)
+		
+		assert.equals(true, mou.tipoDeRecomendacion().equals(modoFan))
+		
+	}
+		
+	test "Mil Haus se crea una cuenta y su perfil posee el tipo de recomendación por control parental." {
+		
+		assert.equals(true, milhaus.tipoDeRecomendacion().equals(controlParental))
+		
+	}
+	
+	test "Mil House decide cambiar el tipo de recomendación por modo Fan y no lo logra. 
+		  Recibe un mensaje en el que se le advierte que es menor." {
+		
+		assert.throwsException({milhaus.tipoDeRecomendacion(modoFan)})
+	}
+
+}

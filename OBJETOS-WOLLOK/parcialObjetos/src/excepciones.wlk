@@ -1,0 +1,1 @@
+class InscripcionException inherits Exception {}
