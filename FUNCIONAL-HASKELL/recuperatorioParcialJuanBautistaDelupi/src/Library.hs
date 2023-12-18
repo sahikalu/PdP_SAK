@@ -21,7 +21,7 @@ ejemploB = Aldea { poblacion = 50,  materialesDisponibles = [(Material "Acero" 1
 
 ejemploC :: Aldea
 ejemploC = Aldea{ poblacion = 50,  materialesDisponibles = [(Material "Acero" 15), (Material "Piedra" 5)], edificios = [(Edificio "Barracas" [(Material "Acero" 20)])] }
- -}
+-}
 data Material = Material {
     nombre :: String,
     calidad :: Number

@@ -1,55 +1,44 @@
 # ejercicio-alumno
 
-## Consigna [https://docs.google.com/document/d/1YpnbfMhHGcXA1pMnrgqaoqj_0QwCAbOLWMk_bNaddGU/edit]
+## Consigna [https://docs.google.com/document/d/1ZUoYrTCEKNOPS1HegxuDY5ckMxuOaM1Bv2J8Cts4G2M/edit]
 
 ### Consigna
-Gnomos!!!
-Queremos modelar parte de un juego inspirado en el Gnomoria, donde se maneja una aldea y la misma puede transformarse con el trabajo de los gnomitos que la habitan. Para ello definimos modelamos los materiales de construcción para los edificios, los edificios para construir en la aldea y la aldea misma de las siguiente forma:
 
-data Material = Material {
-  nombre :: String,
-  calidad :: Int
-} deriving (Show, Eq)
+En este contexto tan atípico la gente buscó nuevas maneras de divertirse, pero cuando nada parece funcionar siempre están los viejos y confiables libros. A raíz del renovado interés de la gente por la lectura, la conocida empresa Amazin' nos pidió que le ayudemos a desarrollar parte de sus funcionalidades. 
 
-data Edificio = Edificio {
-    tipoEdificio :: String, 
-    materiales :: [Material]
-} deriving (Show, Eq)
+Parte A
+De las personas que tienen una cuenta en Amazin' conocemos su nick, su índice de felicidad, los libros que adquirió y los libros que efectivamente leyó. 
 
-data Aldea = Aldea {
-    poblacion :: Int,
-    materialesDisponibles :: [Material],
-    edificios :: [Edificio]
-} deriving (Show, Eq)
+De cada libro conocemos su título, quien lo escribió, su cantidad de páginas y cómo afecta 
+el género a las personas que lo lean.
 
-Maximizando el uso de orden superior, aplicación parcial y composición, se requiere:
-1. Desarrollar las siguientes funciones:
-    a. esValioso que recibe un material y retorna true si su calidad es mayor a 20
-        > esValioso (Material "Madera de pino" 25)
-        True
+1. Modelar les usuaries.
+2. Modelar los libros.
+3. Da un ejemplo de usuarie.
+4. Da un ejemplo de libro.
 
-    b. unidadesDisponibles que recibe el nombre de un material y una aldea y retorna la cantidad de materiales disponibles con ese nombre en la aldea
-        > disponibles "Acero" (Aldea 50 [(Material "Acero" 15), (Material "Acero" 20), (Material "Piedra" 5)] [])
-        2
+Parte B
+Como te contamos más arriba, el género de cada libro produce distintas reacciones en quien los lea:
+    a. Las comedias dependen de su tipo de humor:
+        i. Las comedias dramáticas no alteran a quien las lee.
+        ii. Las comedias absurdas aumentan en 5 el índice de felicidad.
+        iii. Las comedias satíricas duplican el índice de felicidad.
+        iv. El resto de comedias le suman 10 al índice de felicidad.
+    b. Los de ciencia ficción tienen un impacto muy especial, ya que las personas que los leen quieren un nombre raro por lo que invierten los caracteres de su nick.
+    c. Los de terror hacen huir con pavor a quienes los leen, por lo que regalan todos sus libros adquiridos, haciendo que abandonen la lectura… PARA SIEMPRE MUAJAJA.
 
-    c. valorTotal recibe una aldea y retorna la suma de la calidad de todos los materiales que hay en la aldea. Estos son tanto los disponibles como los usados en sus edificios.
-        > valorTotal (Aldea 50 [(Material "Acero" 15), (Material "Piedra" 5)] [(Edificio "Barracas" [(Material "Acero" 20)])])
-        40
+Parte C 
+Pero qué sería de una aplicación de libros si no hacemos la lógica para registrar y sacar conclusiones sobre la lectura de los mismos:
 
-2. Desarrollar las siguientes tareas para que los gnomos puedan realizar en una aldea:
-    a. tenerGnomito que aumenta la población de la aldea en 1.
-    b. lustrarMaderas que aumenta en 5 la calidad de todos los materiales disponibles cuyo nombre empiece con la palabra “Madera”. El resto de los materiales disponibles de la aldea no deberían verse afectados al realizar esta tarea.
-    c. recolectar que dado un material y una cantidad de cuánto de ese material se quiere recolectar, incorpore a los materiales disponibles de la aldea ese mismo material tantas veces como se indique.
+    a. Cuando una persona lee un libro el mismo pasa a formar parte de sus libros leídos y además ocurren los efectos del género.
+    b. Cuando una persona se pone al día lee todos los libros adquiridos que no haya leído previamente. Decimos que una persona leyó un libro si entre los libros que leyó hay alguno con el mismo título que haya sido escrito por la misma persona.
+    c. Algunas personas se fanatizan con quienes escriben los libros, es por ello que queremos saber si una persona es fanática de un escritor o escritora; esto sucede cuando todos los libros que leyó fueron escritos por esa autora o autor. 
+    d. ¿Puede una persona ponerse al día si adquirió una cantidad infinita de libros? Justificar.
 
-3. Realizar las consultas que permitan:
-    a. Obtener los edificios chetos de una aldea, que son aquellos que tienen algún material valioso.
-    b. Obtener una lista de nombres de materiales comunes, que son aquellos que se encuentran en todos los edificios de la aldea.
+Parte D
+Amazin' tiene que clasificar los libros para facilitar las búsquedas, es por ello que decimos que:
+    a. Los libros con menos de 100 páginas son cuentos.
+    b. Los libros que tengan entre 100 y 200 páginas son novelas cortas. 
+    c. Los libros con más de 200 páginas son novelas. 
 
-4.
-    a. Definir la función realizarLasQueCumplan::[Tarea]->(Aldea->Bool)->Aldea->Aldea, que recibe una lista de tareas, un criterio que debería cumplir la aldea luego de realizar cada tarea y la aldea inicial, y retorne cómo quedaría la aldea si se realizaran las tareas válidas, una tras otra. Una tarea es válida si, después de realizarse sobre una aldea (la original o la resultante de haber realizado otra tarea previa), la misma cumple con el criterio indicado.
-
-    b. Hacer consultas utilizando realizarLasQueCumplan de forma tal que:
-        i. Se tengan gnomitos 3 veces (como 3 tareas independiente entre sí), asegurando que siempre haya más unidades de comida disponible que la cantidad de población en la aldea luego de realizar cada tarea de tener gnomitos. Un material con el nombre “Comida” se considera una unidad de comida. 
-        ii. Se recolecten 30 unidades de madera de pino de calidad igual a la calidad máxima de las maderas disponibles y luego se lustren las maderas disponibles de la aldea, asegurando siempre que todos los materiales disponibles sean valiosos.
-
-
+Para finalizar queremos poder saber los títulos de los libros que una persona adquirió dado un tipo de libro en específico (cuentos, novelas cortas o novelas). 
