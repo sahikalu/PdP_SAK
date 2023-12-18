@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "recuperatorioParcialJuanBautistaDelupi:lib"
+
+    - path: "./test"
+      component: "recuperatorioParcialJuanBautistaDelupi:test:recuperatorioParcialJuanBautistaDelupi-test"
